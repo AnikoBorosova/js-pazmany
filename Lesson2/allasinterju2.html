@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+	<!-- <link rel="stylesheet" href="style.css"> -->
+	<title>My to-do list</title>
+	<style>
+		#user-input {
+			margin-top: 50px;
+			margin-right: 10px; 
+			margin-bottom: 10px;
+			margin-left: 50px;
+			border-radius: 5px;
+			border: 1px solid #cccccc;
+			height: 1rem;
+			padding: .5rem;
+		}
+		#todo-list {
+			margin-top: 10px;
+			margin-left: 50px;
+		}
+		li {
+			list-style-type: none;
+			height: 20px;
+			padding: 5px;
+			margin: .3rem auto;
+		}
+		p, button, input {
+			display: inline-block;
+			padding-right: 10px;
+		}
+		button {
+			height: 1.7rem;
+			border: 0;
+			border-radius: 8px;
+			padding: .3rem 1rem .3rem 1rem;
+		}
+		button:hover {
+			cursor: pointer;
+		}
+		.done {
+			text-decoration: line-through;
+		}
+		.remove {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="main"></div>
+
+	<script>
+		//creating html for the form and ul
+
+		var myForm = document.createDocumentFragment();
+
+		var mainInput = document.createElement("input");
+		mainInput.setAttribute("id", "user-input");				// for css purpose only
+
+		var addButton = document.createElement("button");
+		addButton.appendChild(document.createTextNode("Add task"));
+
+		myForm.appendChild(mainInput);
+		myForm.appendChild(addButton);
+
+		var ul = document.createElement("ul");
+		ul.setAttribute("id", "todo-list");
+
+		document.getElementById("main").appendChild(myForm);
+		document.getElementById("main").appendChild(ul);
+
+		addButton.addEventListener("click", createTodoList);
+		window.addEventListener("keypress", listenToEnter);
+
+		function listenToEnter(event) {
+			if (event.key === "Enter") {
+				createTodoList();
+			}
+		}
+
+		function createTodoList() {
+
+			// creating the html inside the unordered list
+			
+			var mainInputValue = mainInput.value;
+			if (mainInputValue === "") {
+				return;
+			}
+
+			var listItem = document.createElement("li");
+
+			var checkboxInput = document.createElement("input");
+			checkboxInput.type = "checkbox";
+
+			var todoText = document.createElement("p");
+			todoText.innerHTML = mainInputValue;
+
+			var deleteButton = document.createElement("button");
+			deleteButton.appendChild(document.createTextNode("Delete"));
+
+			listItem.appendChild(checkboxInput);
+			listItem.appendChild(todoText);
+			listItem.appendChild(deleteButton);
+
+			ul.appendChild(listItem);
+			mainInput.value = "";
+
+			// adding functionality to our todo-list
+
+			// edit task
+
+			todoText.addEventListener("click", editTask);
+			var editTodoInput = document.createElement("input");
+
+			function editTask() {
+				todoText.replaceWith(editTodoInput);
+				editTodoInput.focus();
+				editTodoInput.setSelectionRange(0, editTodoInput.value.length);
+			}
+
+			// saving the updated task
+
+			editTodoInput.addEventListener("blur", updateTask);
+
+			function updateTask() {
+				editTodoInput.replaceWith(todoText);
+				todoText.innerHTML = editTodoInput.value;
+
+				if (editTodoInput.value === "") {
+					todoText.innerHTML = mainInputValue;
+				}
+			}
+
+			// cross of a task when it's done
+
+			checkboxInput.addEventListener("click", taskDone);
+
+			function taskDone() {
+				if (checkboxInput.checked) {
+					todoText.classList.add("done");
+				} else {
+					todoText.classList.remove("done");
+				}
+			}
+
+			// remove a task from the list
+
+			deleteButton.addEventListener("click", removeTask);
+
+			function removeTask() {
+				listItem.classList.add("remove");
+			}
+
+		};
+
+	</script>
+	
+</body>
+</html>

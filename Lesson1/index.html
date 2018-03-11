@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style>
+		.done {
+			text-decoration: line-through;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		
+	</div>
+
+
+
+	<script>
+		function myFun () {
+			console.log("GJHGJ");
+		}
+
+		myFun();
+
+// ------------------------------
+
+
+		var todos = [];
+
+		function createTodoList() {
+			todos.push(todo);
+		}
+
+		function printTodos() {
+
+			console.log("my todos: ");
+
+			for (var idx = 0; idx < todos.length; idx += 1) {
+				var actTodo = todos[idx];
+				console.log(actTodo.label, actTodo.done ? "✓" : "");
+			}
+		}
+
+		function addTodo(todo) {
+			todo = todo || {};  // ha pl falsey értékre jön ki, undefined, null
+
+
+			if (typeof todo.label !== "string") {
+				throw new Error("todo.label must be a string");
+			}
+
+			if (typeof todo.done !== "boolean") {
+				throw new Error("todo.done must be a boolean");
+			}
+
+			todos.push(todo);
+		}
+
+		addTodo({
+			label: "eat",
+			done: false
+		});
+
+		addTodo({
+			label: "read",
+			done: false
+		});
+
+		addTodo({
+			label: "sleep",
+			done: true
+		});
+
+		addTodo({
+			label: "repeat",
+			done: false
+		});
+
+		printTodos();
+
+		function printHTML() {
+			document.writeln("<h1>My todos:</h1>");
+
+			for (var idx = 0; idx < todos.length; idx += 1) {
+				var actTodo = todos[idx];
+
+
+				if (actTodo.done) {
+					//className = ".done";
+					//actTodo.classList.add("done");
+				}
+
+
+				document.writeln("<div>" + actTodo.label + " " + (actTodo.done ? "✓" : "") + "</div>");
+				console.log(actTodo.label, actTodo.done ? "✓" : "");
+			}
+		}
+
+		printHTML();
+	</script>
+</body>
+
+</html>
