@@ -74,7 +74,7 @@ if (savedJson) {
 	}
 }
 
-addTodo({
+/*addTodo({
 	label: "eat",
 	done: false
 });
@@ -87,4 +87,4 @@ addTodo({
 addTodo({
 	label: "sleep more",
 	done: true
-});
+});*/
